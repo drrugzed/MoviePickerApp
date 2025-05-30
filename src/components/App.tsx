@@ -1,20 +1,22 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-
-import Home from '@pages/Home';
-import Results from '@/pages/Results';
-import Details from '@/pages/Details';
 import MainLayout from './MainLayout';
+import { pages } from '../routes';
 
 export default function App() {
   return (
-    <div>
+    <>
       <Routes>
-        <Route path="/" element={<MainLayout />} />
-        <Route index element={<Home />} />
-        <Route path="results" element={<Results />} />
-        <Route path='details/:id' element={<Details />} />
+        <Route path="/" element={<MainLayout />}>
+          {pages.map(({ element: Component, index, path }) => (
+            index ? (
+              <Route key='index' index element={<Component />}/>
+            ) : (
+              <Route key={path} path={path} element={<Component />}/>
+            )
+          ))}
+        </Route>
       </Routes>
-    </div>
+    </>
   );
 }
